@@ -1,22 +1,30 @@
 ---
 const links = [
-  { label: 'Erben Services © 2025', href: '/ueber-uns' },
-  { label: 'Datenschutz u. Rechtsgrundlagen', href: '/datenschutz' },
-  { label: 'Impressum', href: '/impressum' },
-  { label: 'Kontakt', href: '/kontakt' },
+  { label: 'Über uns', href: '/ueber-uns/' },
+  { label: 'Datenschutz u. Rechtsgrundlagen', href: '/datenschutz/' },
+  { label: 'Impressum', href: '/impressum/' },
+  { label: 'Kontakt', href: '/kontakt/' },
 ];
 ---
 
 <footer class="bg-ink text-[#f4f4f4]">
-  <div
-    class="mx-auto flex max-w-[1456px] flex-col items-center gap-3 px-6 py-10 text-center text-sm md:flex-row md:flex-wrap md:justify-center md:gap-x-8 md:px-10"
-  >
-    {
-      links.map((l) => (
-        <a href={l.href} class="text-white/70 transition-colors duration-100 hover:text-white">
-          {l.label}
-        </a>
-      ))
-    }
+  <div class="mx-auto flex max-w-[1456px] flex-col items-center gap-6 px-6 py-10 text-center md:px-10">
+    <p class="text-sm leading-relaxed text-white/70">
+      Erben Services UG (haftungsbeschränkt) · Corneliusstr. 12, 80469 München ·
+      <a href="tel:+491604525935" class="transition-colors duration-100 hover:text-white">+49 160 45 25 935</a> ·
+      <a href="mailto:info@erben-bau.de" class="transition-colors duration-100 hover:text-white">info@erben-bau.de</a>
+    </p>
+    <div
+      class="flex flex-col items-center gap-3 text-sm md:flex-row md:flex-wrap md:justify-center md:gap-x-8"
+    >
+      <span class="text-white/50">© 2026 Erben Services UG (haftungsbeschränkt)</span>
+      {
+        links.map((l) => (
+          <a href={l.href} class="text-white/70 transition-colors duration-100 hover:text-white">
+            {l.label}
+          </a>
+        ))
+      }
+    </div>
   </div>
 </footer>

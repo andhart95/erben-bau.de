@@ -5,11 +5,11 @@ const links = [
   { label: 'Baukoordination', href: '/#baukoordination' },
   { label: 'Bausicherheit', href: '/#bausicherheit' },
   { label: 'Wachstumspartner', href: '/#wachstumspartner' },
-  { label: 'Über Uns', href: '/ueber-uns' },
+  { label: 'Über uns', href: '/ueber-uns/' },
 ];
 ---
 
-<nav id="site-nav" class="sticky top-0 z-50 bg-ink text-white transition-[box-shadow] duration-200 ease-out">
+<nav id="site-nav" class="bg-ink text-white transition-[box-shadow] duration-200 ease-out">
   <div class="mx-auto flex max-w-[1456px] items-center justify-between px-6 md:px-10">
     <a href="/" class="flex items-center" aria-label="Erben Bau — Startseite">
       <img src="/img/logo-eb.svg" alt="Erben Bau" width="110" height="24" class="h-6 w-auto [filter:brightness(0)_invert(1)]" />
@@ -29,7 +29,7 @@ const links = [
           </a>
         ))
       }
-      <Button href="/kontakt" variant="primary" class="px-4 py-2 text-sm">Kontakt</Button>
+      <Button href="/kontakt/" variant="primary" class="px-4 py-2 text-sm">Kontakt</Button>
     </div>
 
     <!-- Burger -->
@@ -61,7 +61,7 @@ const links = [
     </div>
     <div class="flex flex-col gap-2 px-6 pt-6">
       {links.map((l) => (<a href={l.href} class="mobile-link border-b border-white/10 py-4 text-xl font-medium">{l.label}</a>))}
-      <a href="/kontakt" class="mobile-link mt-6 rounded-xs bg-brand px-5 py-4 text-center text-lg font-medium text-white">Kontakt aufnehmen</a>
+      <a href="/kontakt/" class="mobile-link mt-6 rounded-xs bg-brand px-5 py-4 text-center text-lg font-medium text-white">Kontakt aufnehmen</a>
     </div>
   </div>
 </nav>

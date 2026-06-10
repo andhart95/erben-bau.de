@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import CookieConsent from '../components/CookieConsent.astro';
 
 interface Props {
   title: string;
@@ -18,6 +17,62 @@ const {
 
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
 const ogImage = Astro.site ? new URL('/img/og-image.jpg', Astro.site).href : '/img/og-image.jpg';
+
+// Strukturierte Daten: GeneralContractor + WebSite (Stammdaten Northdata-/Operator-verifiziert)
+const siteUrl = Astro.site?.href ?? 'https://www.erben-bau.de/';
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'GeneralContractor',
+      '@id': siteUrl + '#organization',
+      name: 'Erben Bau',
+      legalName: 'Erben Services UG (haftungsbeschränkt)',
+      alternateName: 'Erben Services',
+      slogan: 'Gemeinsam besser bauen',
+      description:
+        'Baukoordination aus München: ein Ansprechpartner für alle Gewerke. Erben Bau koordiniert Bauprojekte für private und gewerbliche Bauherren — vor Ort und mit vollständig digitaler Dokumentation. Leistungen: Baukoordination, Bausicherheit und Wachstumspartner für Handwerksbetriebe.',
+      url: siteUrl,
+      telephone: '+491604525935',
+      email: 'info@erben-bau.de',
+      vatID: 'DE457731051',
+      identifier: {
+        '@type': 'PropertyValue',
+        propertyID: 'Handelsregister',
+        value: 'Amtsgericht München, HRB 305965',
+      },
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Corneliusstr. 12',
+        postalCode: '80469',
+        addressLocality: 'München',
+        addressRegion: 'Bayern',
+        addressCountry: 'DE',
+      },
+      areaServed: [
+        { '@type': 'City', name: 'München' },
+        { '@type': 'State', name: 'Bayern' },
+      ],
+      founder: {
+        '@type': 'Person',
+        '@id': siteUrl + 'ueber-uns/#cihan-erben',
+        name: 'Cihan Erben',
+        jobTitle: 'Geschäftsführer',
+        sameAs: ['https://www.linkedin.com/in/cihan-erben/'],
+      },
+      image: new URL('/img/og-image.jpg', siteUrl).href,
+      logo: new URL('/img/logomark.png', siteUrl).href,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': siteUrl + '#website',
+      url: siteUrl,
+      name: 'Erben Bau',
+      inLanguage: 'de',
+      publisher: { '@id': siteUrl + '#organization' },
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -29,6 +84,7 @@ const ogImage = Astro.site ? new URL('/img/og-image.jpg', Astro.site).href : '/i
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#141212" />
 
     <!-- Open Graph (Verbesserung ggü. Original, das keine hatte) -->
@@ -36,9 +92,15 @@ const ogImage = Astro.site ? new URL('/img/og-image.jpg', Astro.site).href : '/i
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Erben Bau – Baukoordination München" />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Erben Bau" />
     <meta property="og:locale" content="de_DE" />
     <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
     <!-- Satoshi self-hosted (DSGVO + Performance) -->
     <link rel="preload" href="/fonts/satoshi-500.woff2" as="font" type="font/woff2" crossorigin />
@@ -50,10 +112,11 @@ const ogImage = Astro.site ? new URL('/img/og-image.jpg', Astro.site).href : '/i
       class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[2000] focus:rounded-xs focus:bg-brand focus:px-4 focus:py-2 focus:text-white"
       >Zum Inhalt springen</a
     >
-    <Nav />
+    <header class="sticky top-0 z-50">
+      <Nav />
+    </header>
     <main id="main" class:list={['flex-1', mainClass]}><slot /></main>
     <Footer />
-    <CookieConsent />
 
     <script>
       const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');

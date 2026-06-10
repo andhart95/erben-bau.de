@@ -7,13 +7,13 @@
 
 // Pro Bild: target-Zoom t + Basis-Frame (vw/vh) + Offset (vw/vh) aus der Original-Choreographie.
 const items = [
-  { src: '/img/gallery-1.webp', alt: 'Renoviertes Wohnzimmer mit Holzboden und Holzdecke',            t: 3.5, bw: 25, bh: 25, ox: 0,     oy: 0 },
-  { src: '/img/gallery-3.webp', alt: 'Renovierter Raum in minimalem Holzstil mit Couch und Fenster',  t: 4,   bw: 35, bh: 30, ox: 5,     oy: -30 },
-  { src: '/img/gallery-2.webp', alt: 'Mehrstöckiges Haus von außen mit Glasfront',                    t: 4.5, bw: 20, bh: 45, ox: -25,   oy: -10 },
-  { src: '/img/gallery-4.webp', alt: 'Schwarzes EB-Reklameschild an Hauswand mit Goldschrift',        t: 4,   bw: 25, bh: 25, ox: 27.5,  oy: 0 },
-  { src: '/img/gallery-5.webp', alt: 'Renoviertes Haus von innen mit Treppe und Holzboden',           t: 4.5, bw: 20, bh: 25, ox: 5,     oy: 27.5 },
-  { src: '/img/gallery-6.webp', alt: 'Materialdetail aus Holz, Beton und Glas in warmem Tageslicht',  t: 5,   bw: 30, bh: 25, ox: -22.5, oy: 27.5 },
-  { src: '/img/gallery-7.webp', alt: 'Modernes Haus in der Dämmerung mit warm beleuchteten Fenstern', t: 5.5, bw: 15, bh: 15, ox: 25,    oy: 22.5 },
+  { src: '/img/gallery-1.webp', alt: 'Renoviertes Wohnzimmer mit Holzboden und Holzdecke',            w: 2400, h: 1350, t: 3.5, bw: 25, bh: 25, ox: 0,     oy: 0 },
+  { src: '/img/gallery-3.webp', alt: 'Renovierter Raum in minimalem Holzstil mit Couch und Fenster',  w: 2400, h: 1600, t: 4,   bw: 35, bh: 30, ox: 5,     oy: -30 },
+  { src: '/img/gallery-2.webp', alt: 'Mehrstöckiges Haus von außen mit Glasfront',                    w: 1400, h: 2394, t: 4.5, bw: 20, bh: 45, ox: -25,   oy: -10 },
+  { src: '/img/gallery-4.webp', alt: 'Schwarzes EB-Reklameschild an Hauswand mit Goldschrift',        w: 1134, h: 1500, t: 4,   bw: 25, bh: 25, ox: 27.5,  oy: 0 },
+  { src: '/img/gallery-5.webp', alt: 'Renoviertes Haus von innen mit Treppe und Holzboden',           w: 2400, h: 1350, t: 4.5, bw: 20, bh: 25, ox: 5,     oy: 27.5 },
+  { src: '/img/gallery-6.webp', alt: 'Materialdetail aus Holz, Beton und Glas in warmem Tageslicht',  w: 1500, h: 2000, t: 5,   bw: 30, bh: 25, ox: -22.5, oy: 27.5 },
+  { src: '/img/gallery-7.webp', alt: 'Modernes Haus in der Dämmerung mit warm beleuchteten Fenstern', w: 2400, h: 1600, t: 5.5, bw: 15, bh: 15, ox: 25,    oy: 22.5 },
 ];
 const round = (n: number) => Math.round(n * 1000) / 1000;
 ---
@@ -40,7 +40,7 @@ const round = (n: number) => Math.round(n * 1000) / 1000;
             style={`--fw:${round(img.bw * img.t)}vw; --fh:${round(img.bh * img.t)}vh; --fx:${round(img.ox * img.t)}vw; --fy:${round(img.oy * img.t)}vh; --s0:${round(1 / img.t)};`}
           >
             <div class="zoom-frame overflow-hidden rounded-xs">
-              <img src={img.src} alt={img.alt} loading="lazy" decoding="async" class="zoom-img h-full w-full object-cover" />
+              <img src={img.src} alt={img.alt} width={img.w} height={img.h} loading="lazy" decoding="async" class="zoom-img h-full w-full object-cover" />
             </div>
           </div>
         ))

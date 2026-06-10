@@ -8,6 +8,8 @@ const CAL =
 <section class="relative isolate flex min-h-[88vh] items-end overflow-hidden bg-ink">
   <img
     src="/img/hero.webp"
+    srcset="/img/hero-800.webp 800w, /img/hero-1600.webp 1600w, /img/hero.webp 2400w"
+    sizes="100vw"
     alt="Renoviertes Haus von innen mit Treppe und Holzboden"
     width="2400"
     height="1351"
@@ -32,10 +34,10 @@ const CAL =
         <span class="reveal-line" style="--line-delay:180ms"><span>aus einer Hand</span></span>
       </h1>
       <p class="reveal-fade mt-6 text-xl leading-relaxed text-white/90" style="--fade-delay:320ms">
-        Ein Ansprechpartner für alle Gewerke.<br />Schnell, digital und persönlich vor Ort.
+        Ein Ansprechpartner für alle Gewerke in München und Bayern.<br />Schnell, digital und persönlich vor Ort.
       </p>
       <div class="reveal-fade mt-8 flex flex-wrap gap-4" style="--fade-delay:430ms">
-        <Button href="/kontakt" variant="primary">Kontakt</Button>
+        <Button href="/kontakt/" variant="primary">Kontakt</Button>
         <Button href={CAL} target="_blank" variant="outline-light">
           Beratungstermin
           <span class="btn-icon" aria-hidden="true">

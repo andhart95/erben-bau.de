@@ -2,11 +2,11 @@
 // A11y-konformes Karussell, vanilla. Cross-Fade statt translateX.
 // Auto-Advance opt-in; Pause on hover/focus + reduced-motion + tab-hidden.
 const testimonials = [
-  '“Mit dem Team von Erben Services hatten wir endlich eine Instanz, die zwischen Bauherrn und Gewerken alles zusammenhält. Transparent, zuverlässig und absolut professionell.”',
-  '"Das Erben Team hat Probleme erkannt, bevor sie überhaupt entstanden sind. So blieb die Baustelle stressfrei und das Ergebnis war erstklassig."',
-  '“Das Erben Team hat uns die komplette Koordination abgenommen. Alles lief reibungslos, und wir konnten uns voll auf das Projekt konzentrieren..”',
-  '“Dank dem Team von Erben können wir uns wieder voll auf unser Handwerk konzentrieren. Den ganzen administrativen Aufwand übernehmen sie professionell und effizient.”',
-  '"Mit der Firma Erben als Partner haben wir unsere gesamten internen und externen Abläufe modernisiert und automatisiert, was uns zusätzliche Kapazitäten für neue Projekt geschaffen hat. Das hätten wir alleine nie erreicht."',
+  '„Mit dem Team von Erben Services hatten wir endlich eine Instanz, die zwischen Bauherrn und Gewerken alles zusammenhält. Transparent, zuverlässig und absolut professionell."',
+  '„Das Erben Team hat Probleme erkannt, bevor sie überhaupt entstanden sind. So blieb die Baustelle stressfrei und das Ergebnis war erstklassig."',
+  '„Das Erben Team hat uns die komplette Koordination abgenommen. Alles lief reibungslos, und wir konnten uns voll auf das Projekt konzentrieren."',
+  '„Dank dem Team von Erben können wir uns wieder voll auf unser Handwerk konzentrieren. Den ganzen administrativen Aufwand übernehmen sie professionell und effizient."',
+  '„Mit der Firma Erben als Partner haben wir unsere gesamten internen und externen Abläufe modernisiert und automatisiert, was uns zusätzliche Kapazitäten für neue Projekte geschaffen hat. Das hätten wir alleine nie erreicht."',
 ];
 const AUTOPLAY = true;
 const INTERVAL = 7000;
@@ -15,15 +15,15 @@ const INTERVAL = 7000;
 <section
   class="bg-beige"
   aria-roledescription="carousel"
-  aria-label="Kundenstimmen"
+  aria-label="Stimmen aus der Zusammenarbeit"
   id="eb-testimonials"
   data-autoplay={AUTOPLAY ? 'true' : 'false'}
   data-interval={INTERVAL}
 >
   <div class="mx-auto max-w-[980px] px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] text-center md:px-10">
-    <p class="eyebrow eyebrow--rule mb-4 justify-center text-muted-strong" data-reveal>Kunden vertrauen auf Erben Bau</p>
+    <p class="eyebrow eyebrow--rule mb-4 justify-center text-muted-strong" data-reveal>Aus unseren Projekten</p>
     <h2 class="mb-12 text-[clamp(2.5rem,1.4rem+4vw,4.8rem)] font-medium tracking-[-0.02em] text-ink" data-reveal>
-      Rezensionen
+      Stimmen aus der Zusammenarbeit
     </h2>
 
     <div class="relative" data-reveal>
@@ -32,7 +32,7 @@ const INTERVAL = 7000;
         class="pointer-events-none absolute left-1/2 top-[-0.35em] z-0 -translate-x-1/2 select-none font-medium leading-none text-brand/10"
         style="font-size: clamp(7rem, 4rem + 14vw, 13rem);">„</span>
 
-      <div id="eb-stage" class="relative z-10 mx-auto min-h-[clamp(9rem,7rem+8vw,12rem)] max-w-[62ch]">
+      <div id="eb-stage" aria-live="off" class="relative z-10 mx-auto min-h-[clamp(9rem,7rem+8vw,12rem)] max-w-[62ch]">
         {
           testimonials.map((t, i) => (
             <p
@@ -69,6 +69,20 @@ const INTERVAL = 7000;
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
             ><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg
+          >
+        </button>
+        <button
+          id="eb-pause"
+          type="button"
+          class="ml-1 flex h-11 w-11 items-center justify-center rounded-full border border-ink/25 text-ink transition-[color,background-color,border-color,transform] duration-200 ease-out hover:border-brand hover:bg-brand hover:text-white active:scale-95"
+          aria-label="Automatische Wiedergabe pausieren"
+          aria-pressed="false"
+        >
+          <svg id="eb-icon-pause" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+            ><path d="M9 5v14M15 5v14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg
+          >
+          <svg id="eb-icon-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" hidden
+            ><path d="M8 5.5v13l11-6.5-11-6.5z"></path></svg
           >
         </button>
       </div>
@@ -140,9 +154,12 @@ const INTERVAL = 7000;
 
     const wantsAutoplay = root.dataset.autoplay === 'true' && !reduce;
     const interval = Number(root.dataset.interval) || 7000;
+    let userPaused = false;
     const stop = () => { if (timer) window.clearInterval(timer); timer = undefined; };
-    const start = () => { if (!wantsAutoplay || timer) return; timer = window.setInterval(() => go(idx + 1), interval); };
+    const start = () => { if (!wantsAutoplay || timer || userPaused) return; timer = window.setInterval(() => go(idx + 1), interval); };
     const restart = () => { stop(); start(); };
+    // Nach manueller Navigation Slide-Wechsel ankündigen (Autoplay bleibt stumm)
+    const announce = () => stage.setAttribute('aria-live', 'polite');
 
     root.addEventListener('mouseenter', stop);
     root.addEventListener('mouseleave', start);
@@ -150,12 +167,25 @@ const INTERVAL = 7000;
     root.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else start(); });
 
-    prev?.addEventListener('click', () => { go(idx - 1); restart(); });
-    next?.addEventListener('click', () => { go(idx + 1); restart(); });
+    // WCAG 2.2.2: Autoplay dauerhaft pausierbar
+    const pauseBtn = document.getElementById('eb-pause');
+    const iconPause = document.getElementById('eb-icon-pause');
+    const iconPlay = document.getElementById('eb-icon-play');
+    pauseBtn?.addEventListener('click', () => {
+      userPaused = !userPaused;
+      pauseBtn.setAttribute('aria-pressed', String(userPaused));
+      pauseBtn.setAttribute('aria-label', userPaused ? 'Automatische Wiedergabe starten' : 'Automatische Wiedergabe pausieren');
+      iconPause?.toggleAttribute('hidden', userPaused);
+      iconPlay?.toggleAttribute('hidden', !userPaused);
+      if (userPaused) { stop(); announce(); } else { restart(); }
+    });
+
+    prev?.addEventListener('click', () => { announce(); go(idx - 1); restart(); });
+    next?.addEventListener('click', () => { announce(); go(idx + 1); restart(); });
     root.addEventListener('keydown', (e) => {
       const k = (e as KeyboardEvent).key;
-      if (k === 'ArrowLeft') { go(idx - 1); restart(); }
-      if (k === 'ArrowRight') { go(idx + 1); restart(); }
+      if (k === 'ArrowLeft') { announce(); go(idx - 1); restart(); }
+      if (k === 'ArrowRight') { announce(); go(idx + 1); restart(); }
     });
 
     go(0);
