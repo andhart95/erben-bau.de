@@ -1,10 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import sitemap from '@astrojs/sitemap';
 
-// Microsite-Rebuild von erben-bau.de — deploy auf erbenbau.voyagedigital.de (noindex).
 export default defineConfig({
-  site: 'https://erbenbau.voyagedigital.de',
+  site: 'https://www.erben-bau.de',
+  integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
   },

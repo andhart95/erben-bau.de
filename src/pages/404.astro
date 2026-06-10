@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+---
+
+<Layout
+  title="Seite nicht gefunden — Erben Bau"
+  description="Die angeforderte Seite existiert nicht. Zurück zur Startseite von Erben Bau, Ihrem Partner für Baukoordination in München."
+>
+  <section class="flex min-h-[60vh] flex-col items-center justify-center bg-beige-light px-6 py-32 text-center">
+    <p class="eyebrow mb-4">Fehler 404</p>
+    <h1 class="mb-4 text-4xl font-medium tracking-[-0.01em] text-ink md:text-5xl">
+      Diese Seite gibt es nicht.
+    </h1>
+    <p class="mb-10 max-w-[48ch] text-muted-strong">
+      Die angeforderte Seite wurde nicht gefunden oder ist umgezogen. Über die Startseite finden Sie
+      alle Leistungen und Kontaktmöglichkeiten.
+    </p>
+    <Button href="/">Zur Startseite</Button>
+  </section>
+</Layout>
