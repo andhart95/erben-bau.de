@@ -1,4 +1,24 @@
 User-agent: *
 Allow: /
 
+# AI-Suchcrawler explizit erlaubt (Zitation in ChatGPT, Perplexity, Claude, Bing)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Reiner Trainingsdaten-Crawler ohne Zitations-Nutzen
+User-agent: Bytespider
+Disallow: /
+
 Sitemap: https://www.erben-bau.de/sitemap-index.xml

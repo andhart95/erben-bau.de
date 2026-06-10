@@ -7,12 +7,14 @@ interface Props {
   title: string;
   description?: string;
   mainClass?: string;
+  noindex?: boolean;
 }
 
 const {
   title,
-  description = 'Erben Bau — Baukoordination, Bausicherheit und Wachstumspartner aus München. Alle Dienstleister aus einer Hand: ein Ansprechpartner für alle Gewerke.',
+  description = 'Baukoordination, Bausicherheit und Wachstumspartner aus München. Erben Bau: ein Ansprechpartner für alle Gewerke, digital dokumentiert, persönlich vor Ort.',
   mainClass = '',
+  noindex = false,
 } = Astro.props;
 
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
@@ -31,7 +33,7 @@ const schema = {
       alternateName: 'Erben Services',
       slogan: 'Gemeinsam besser bauen',
       description:
-        'Baukoordination aus München: ein Ansprechpartner für alle Gewerke. Erben Bau koordiniert Bauprojekte für private und gewerbliche Bauherren — vor Ort und mit vollständig digitaler Dokumentation. Leistungen: Baukoordination, Bausicherheit und Wachstumspartner für Handwerksbetriebe.',
+        'Baukoordination aus München: ein Ansprechpartner für alle Gewerke. Erben Bau koordiniert Bauprojekte für private und gewerbliche Bauherren, vor Ort und mit vollständig digitaler Dokumentation. Leistungen: Baukoordination, Bausicherheit und Wachstumspartner für Handwerksbetriebe.',
       url: siteUrl,
       telephone: '+491604525935',
       email: 'info@erben-bau.de',
@@ -80,8 +82,10 @@ const schema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/png" href="/img/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -94,11 +98,14 @@ const schema = {
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Erben Bau – Baukoordination München" />
+    <meta property="og:image:alt" content="Erben Bau, Baukoordination München" />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Erben Bau" />
     <meta property="og:locale" content="de_DE" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
 
     <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 

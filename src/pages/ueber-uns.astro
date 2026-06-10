@@ -8,11 +8,11 @@ const CAL =
 const werte = [
   {
     h: 'Vertrauen statt Kontrolle',
-    t: 'Motivation entsteht nicht durch Druck, sondern durch Bedeutung. Wir geben jedem Gewerk einen klaren Rahmen und das Vertrauen, darin gut zu arbeiten. Weniger Chaos auf der Baustelle durch mehr Vertrauen.',
+    t: 'Motivation entsteht nicht durch Druck, sondern durch Bedeutung. Wir geben jedem Gewerk einen klaren Rahmen und das Vertrauen, darin gut zu arbeiten.',
   },
   {
     h: 'Fehler offen ansprechen',
-    t: 'Auf Baustellen passieren Fehler jeden Tag. Das eigentliche Problem ist, dass niemand darüber redet. Wir reden, bevor es teuer wird. Fehlerkultur ist für uns kein Schlagwort, sondern die billigste Versicherung gegen Bauverzögerungen.',
+    t: 'Auf Baustellen passieren Fehler jeden Tag. Das eigentliche Problem ist, dass niemand darüber redet. Wir reden, bevor es teuer wird. Fehlerkultur ist die billigste Versicherung gegen Bauverzögerungen.',
   },
   {
     h: 'Bauen ist Teamsport',
@@ -30,8 +30,8 @@ const werte = [
 ---
 
 <Layout
-  title="Über uns — Erben Bau"
-  description="Erben Bau aus München hält Bauprojekte zusammen. Gegründet von Cihan Erben. Vertrauen statt Kontrolle, offene Fehlerkultur und eine Arbeitsweise, die aus jedem Projekt lernt."
+  title="Über uns — Erben Bau, Baukoordination München"
+  description="Erben Bau aus München hält Bauprojekte zusammen. Gegründet von Cihan Erben: Vertrauen statt Kontrolle und eine Arbeitsweise, die aus jedem Projekt lernt."
 >
   <!-- Intro -->
   <section class="bg-ink text-white">
@@ -61,7 +61,7 @@ const werte = [
       </p>
       <div class="mt-9 flex flex-wrap gap-4" data-reveal data-reveal-delay="3">
         <Button href={CAL} target="_blank" variant="primary">Beratungstermin vereinbaren</Button>
-        <Button href="/kontakt" variant="outline-light">Kontakt aufnehmen</Button>
+        <Button href="/kontakt/" variant="outline-light">Kontakt aufnehmen</Button>
       </div>
     </div>
   </section>
@@ -106,8 +106,8 @@ const werte = [
         </p>
         <p class="text-ink font-medium">Wir glauben, dass es anders geht.</p>
         <p>
-          Wenn die Zusammenarbeit auf einer Baustelle nicht funktioniert, entsteht automatisch Chaos.
-          Verzögerungen. Missverständnisse. Steigende Kosten. Frust bei allen Beteiligten. Das hat
+          Wenn die Zusammenarbeit auf einer Baustelle nicht funktioniert, entsteht automatisch Chaos:
+          Verzögerungen, Missverständnisse, steigende Kosten, Frust bei allen Beteiligten. Das hat
           selten mit den Menschen zu tun. Meistens fehlt eine Stelle, die alles zusammenhält.
         </p>
         <p class="text-ink font-medium">Diese Stelle sind wir.</p>
@@ -154,7 +154,7 @@ const werte = [
   </section>
 
   <!-- Founder -->
-  <section class="bg-white">
+  <section id="cihan-erben" class="bg-white">
     <div
       class="mx-auto grid max-w-[1100px] gap-10 px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] md:grid-cols-[0.85fr_1.15fr] md:gap-16 md:px-10"
     >
@@ -195,7 +195,7 @@ const werte = [
           <p>
             Genau deshalb gibt es Erben Bau. Ich wollte einen Partner schaffen, der nicht noch ein
             Gewerk ausführt, sondern den ganzen Prozess zusammenhält. Mit klaren Abläufen, digitaler
-            Dokumentation und einer Haltung, die auf Vertrauen statt auf Druck setzt.
+            Dokumentation und einer Haltung: Vertrauen statt Druck.
           </p>
           <p class="border-l-2 border-brand pl-5 text-xl font-medium text-ink">
             Mein Anspruch ist einfach: Bauen soll stressfreier, transparenter und termintreuer werden.
@@ -203,8 +203,13 @@ const werte = [
           </p>
         </div>
         <div class="mt-8">
-          <Button href="/kontakt" variant="secondary">Lernen wir uns kennen</Button>
+          <Button href="/kontakt/" variant="secondary">Lernen wir uns kennen</Button>
         </div>
+        <p class="mt-10 border-t border-ink/10 pt-5 text-sm leading-relaxed text-muted">
+          Erben Bau ist die Marke der Erben Services UG (haftungsbeschränkt) mit Sitz in München,
+          eingetragen im Handelsregister des Amtsgerichts München (HRB 305965). Wir arbeiten für
+          private und gewerbliche Bauherren in München und ganz Bayern.
+        </p>
       </div>
     </div>
   </section>
@@ -222,7 +227,7 @@ const werte = [
       </p>
       <div class="mt-8 flex flex-wrap justify-center gap-4">
         <Button href={CAL} target="_blank" variant="primary">Beratungstermin vereinbaren</Button>
-        <Button href="/kontakt" variant="outline-light">Kontakt aufnehmen</Button>
+        <Button href="/kontakt/" variant="outline-light">Kontakt aufnehmen</Button>
       </div>
     </div>
   </section>

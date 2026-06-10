@@ -107,7 +107,8 @@ body {
 
 /* ===== Scroll-Reveal ===== */
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal] {
+  /* .js-Scope: ohne JavaScript bleibt aller Inhalt sichtbar (Progressive Enhancement) */
+  .js [data-reveal] {
     opacity: 0;
     transform: translateY(var(--reveal-y, 26px));
     transition:
@@ -126,7 +127,7 @@ body {
   [data-reveal][data-reveal-delay="6"] { --reveal-delay: 480ms; }
 
   /* Clip-Wipe-Reveal fuer Bilder */
-  [data-reveal-clip] > img {
+  .js [data-reveal-clip] > img {
     clip-path: inset(0 0 100% 0);
     transform: scale(1.04);
     transition:
@@ -139,7 +140,7 @@ body {
   [data-reveal-clip].is-done > img { will-change: auto; }
 
   /* Text-Stagger innerhalb eines .is-visible-Containers */
-  [data-stagger] {
+  .js [data-stagger] {
     opacity: 0;
     transform: translateY(14px);
     transition:
@@ -157,7 +158,7 @@ body {
   [data-parallax] { transform: translate3d(0, var(--parallax, 0px), 0); }
 
   /* Eyebrow-Strich zeichnet beim Reveal mit */
-  .eyebrow--rule::before {
+  .js .eyebrow--rule::before {
     transform: scaleX(0.2);
     opacity: 0.4;
     transition: transform 0.5s var(--ease-out-expo), opacity 0.5s var(--ease-out-expo);
@@ -171,14 +172,14 @@ body {
 .hero-reveal { opacity: 1; }
 @media (prefers-reduced-motion: no-preference) {
   .reveal-line { display: block; overflow: hidden; padding-bottom: 0.08em; margin-bottom: -0.08em; }
-  .reveal-line > span {
+  .js .reveal-line > span {
     display: block;
     transform: translateY(110%);
     transition: transform var(--dur-reveal) var(--ease-out);
     transition-delay: var(--line-delay, 0ms);
     will-change: transform;
   }
-  .reveal-fade {
+  .js .reveal-fade {
     opacity: 0;
     transform: translateY(14px);
     transition: opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out);

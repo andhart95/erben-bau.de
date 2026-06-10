@@ -9,9 +9,67 @@ import ContactSection from '../components/ContactSection.astro';
 
 const CAL =
   'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3mSeSUNX1Y0Ddx15WUzG8q0enFHNT9Y9nkOn6Ooz78oN4aIrP346JlV6vsufMnr3_vrbd6NV0z';
+
+// Service-Schema (GEO): die drei Leistungsbereiche als eigenständige Entitäten
+const siteUrl = Astro.site?.href ?? 'https://www.erben-bau.de/';
+const serviceArea = [
+  { '@type': 'City', name: 'München' },
+  { '@type': 'State', name: 'Bayern' },
+];
+const servicesSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Leistungen von Erben Bau',
+  description:
+    'Die drei Leistungsbereiche von Erben Bau in München: Baukoordination, Bausicherheit und Wachstumspartner für Handwerksbetriebe.',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      item: {
+        '@type': 'Service',
+        '@id': siteUrl + '#baukoordination',
+        name: 'Baukoordination',
+        description:
+          'Vollständige Koordination von Bauprojekten für private und gewerbliche Bauherren in München und Bayern. Ein zentraler Ansprechpartner für alle Gewerke übernimmt Projektsteuerung, Termin- und Kostenüberwachung sowie vollständige digitale Dokumentation.',
+        provider: { '@id': siteUrl + '#organization' },
+        areaServed: serviceArea,
+        serviceType: 'Baukoordination',
+      },
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      item: {
+        '@type': 'Service',
+        '@id': siteUrl + '#bausicherheit',
+        name: 'Bausicherheit',
+        description:
+          'Organisation der Baustellensicherheit mit klaren Zuständigkeiten, Zugangskontrolle und Überwachung des Baustellengeländes. Erben Bau stellt sicher, dass Zwischenfälle den Zeitplan nicht gefährden.',
+        provider: { '@id': siteUrl + '#organization' },
+        areaServed: serviceArea,
+        serviceType: 'Bausicherheit',
+      },
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      item: {
+        '@type': 'Service',
+        '@id': siteUrl + '#wachstumspartner',
+        name: 'Wachstumspartner für Handwerksbetriebe',
+        description:
+          'Erben Bau übernimmt administrative Aufgaben für Handwerksbetriebe in Bayern, modernisiert interne Abläufe, automatisiert Prozesse und begleitet die Einführung von Projektmanagement- und CRM-Systemen.',
+        provider: { '@id': siteUrl + '#organization' },
+        areaServed: [{ '@type': 'State', name: 'Bayern' }],
+        serviceType: 'Unternehmensberatung Handwerk',
+      },
+    },
+  ],
+};
 ---
 
-<Layout title="Erben Bau: Home">
+<Layout title="Baukoordination München — Ein Ansprechpartner für alle Gewerke">
   <Hero />
 
   <!-- Eyebrow-Band -->
@@ -35,13 +93,32 @@ const CAL =
     eyebrow="Über uns"
     heading={['Warum wir tun', 'was wir tun']}
     body="Jedes einzelne Detail unserer Dienstleistungen wird an unserem kontinuierlichen Ziel gemessen: Die Zusammenarbeit im Bau konstant zu verbessern."
-    cta={{ label: 'Weitere Infos', href: '/ueber-uns', variant: 'secondary' }}
+    cta={{ label: 'Weitere Infos', href: '/ueber-uns/', variant: 'secondary' }}
     image={{ src: '/img/billboard.webp', alt: 'Erben Bau schwarzes Reklameschild an einer Bürogebäude-Glasfassade', width: 850, height: 1000 }}
     reverse={true}
   />
+
+  <!-- Kurzprofil: eigenständig zitierfähiger Definitionsblock (GEO) -->
+  <section class="bg-beige-light">
+    <div class="mx-auto max-w-[860px] border-t border-ink/10 px-6 pt-[clamp(3rem,2rem+4vw,6rem)] md:px-10" data-reveal>
+      <p class="eyebrow eyebrow--rule mb-5 text-muted-strong">Kurz erklärt</p>
+      <p class="text-lg leading-relaxed text-ink/80">
+        Erben Bau ist ein Baukoordinationsdienstleister aus München. Das Unternehmen übernimmt die
+        vollständige Koordination von Bauprojekten für private und gewerbliche Bauherren in München
+        und Bayern. Erben Bau führt keine Gewerke selbst aus. Das Unternehmen bildet die
+        organisatorische Klammer zwischen Bauherr, Bauleitung und allen beteiligten
+        Handwerksbetrieben: Ein zentraler Ansprechpartner koordiniert alle Gewerke, überwacht Termine
+        und Kosten, dokumentiert jeden Schritt digital und ist bei wichtigen Entscheidungen
+        persönlich vor Ort. Das Leistungsangebot umfasst Baukoordination, Bausicherheit und die
+        Rolle als Wachstumspartner für Handwerksbetriebe.
+      </p>
+    </div>
+  </section>
 
   <Services />
   <Gallery />
   <TestimonialCarousel />
   <ContactSection />
+
+  <script type="application/ld+json" set:html={JSON.stringify(servicesSchema)} />
 </Layout>
