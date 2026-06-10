@@ -1,5 +1,9 @@
 # Go-Live-Runbook — erben-bau.de (Astro-Microsite)
 
+> ## ✅ GO-LIVE VOLLZOGEN — 2026-06-10
+> www.erben-bau.de liefert die neue Site (TLS valide, Wildcard-Cert `*.erben-bau.de`). Gewählter Weg: **NS-Delegation zu Netlify DNS** (dns1–4.p05.nsone.net) statt Einzel-Record-Switch — alle Strato-Records (MX Google, SPF, DKIM `cemsc._domainkey`, DMARC, Verifications) wurden 1:1 in die Netlify-Zone übernommen, Mail lief unterbrechungsfrei. `X-Robots-Tag` aus `_headers` entfernt, Site indexierbar. **CI-Deploy aktiv:** Netlify-Projekt `erben-bau` baut aus `andhart95/erben-bau-site` (main, `npm run build` → `dist`) — Deploys ab jetzt per `git push`, nicht mehr manuell. Formular: Detection aktiviert, E2E getestet, Notifications an info@erben-bau.de + a.hartenfels@voyagedigital.de (im UI angelegt — API-Hooks feuern nicht).
+> **Noch offen (Post-Launch):** GSC/Bing-Property + Sitemap einreichen · Datenschutz-Rechtstext (GA-Abschnitt, fehlender Abschn. 3) durch Betreiber · Webflow mind. 30 Tage als Rollback behalten · Indexierungs-Check nach 7 Tagen.
+
 Stand: 2026-06-10 · Gilt für `04_REBUILD/` · Ziel: Ablösung der Webflow-Site auf www.erben-bau.de
 
 ---
