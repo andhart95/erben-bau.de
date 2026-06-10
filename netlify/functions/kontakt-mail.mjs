@@ -1,12 +1,14 @@
-// Netlify-Trigger-Function: feuert automatisch bei jeder verifizierten Form-Submission
-// (Naming-Convention "submission-created", klassisches Handler-Format lt. Netlify-Doku).
-// Versand via Resend-API (fetch, keine Dependencies).
-// Submissions bleiben unabhängig davon im Netlify-Dashboard gespeichert.
+// Mail-Versand fürs Kontaktformular via Resend (formular@erben-bau.de).
+// Wird vom Formular-Script direkt aufgerufen (POST, JSON), NICHT über Netlifys
+// submission-created-Trigger — der feuert auf diesem Team nachweislich nicht (still geblockt).
+// Die Submission selbst wird unabhängig davon von Netlify Forms gespeichert (Dashboard-Backup).
 
 const RECIPIENTS = ['info@erben-bau.de', 'a.hartenfels@voyagedigital.de'];
 const FROM = 'Erben Bau Kontaktformular <formular@erben-bau.de>';
 
 export const handler = async (event) => {
+  if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'method not allowed' };
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error('RESEND_API_KEY fehlt — Mail nicht versendet. Submission liegt im Netlify-Dashboard.');
@@ -15,10 +17,16 @@ export const handler = async (event) => {
 
   let data = {};
   try {
-    data = JSON.parse(event.body).payload?.data ?? {};
+    data = JSON.parse(event.body);
   } catch (e) {
     console.error('Payload nicht parsebar:', e.message);
-    return { statusCode: 200, body: 'bad payload' };
+    return { statusCode: 400, body: 'bad payload' };
+  }
+
+  // Honeypot: Bots füllen das versteckte Feld — still verwerfen
+  if (data['bot-field']) {
+    console.log('Honeypot ausgelöst — keine Mail versendet.');
+    return { statusCode: 200, body: 'ok' };
   }
 
   const lines = [
@@ -49,7 +57,7 @@ export const handler = async (event) => {
 
   if (!res.ok) {
     console.error('Resend-Fehler', res.status, await res.text());
-    return { statusCode: 200, body: 'mail failed' };
+    return { statusCode: 502, body: 'mail failed' };
   }
   console.log('Kontaktanfrage-Mail versendet an', RECIPIENTS.join(', '));
   return { statusCode: 200, body: 'ok' };

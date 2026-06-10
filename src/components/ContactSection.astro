@@ -137,6 +137,18 @@ const Heading = headingAs;
         body,
       });
       if (!res.ok) throw new Error('bad');
+      // Mail-Versand direkt anstoßen (Netlifys submission-created-Trigger feuert nicht zuverlässig).
+      // Fehler hier nicht dem Nutzer zeigen — die Anfrage ist bereits gespeichert.
+      try {
+        await fetch('/.netlify/functions/kontakt-mail', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(data as any)),
+          keepalive: true,
+        });
+      } catch (err) {
+        console.error('Mail-Benachrichtigung fehlgeschlagen (Anfrage ist gespeichert):', err);
+      }
       form.classList.add('hidden');
       done?.classList.remove('hidden');
       (done as HTMLElement | null)?.focus?.();
