@@ -1,0 +1,139 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  mainClass?: string;
+}
+
+const {
+  title,
+  description = 'Erben Bau — Baukoordination, Bausicherheit und Wachstumspartner aus München. Alle Dienstleister aus einer Hand: ein Ansprechpartner für alle Gewerke.',
+  mainClass = '',
+} = Astro.props;
+
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+const ogImage = Astro.site ? new URL('/img/hero.webp', Astro.site).href : '/img/hero.webp';
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Demo-/Pitch-Microsite auf voyagedigital.de — bewusst nicht indexieren -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <meta name="theme-color" content="#141212" />
+
+    <!-- Open Graph (Verbesserung ggü. Original, das keine hatte) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="de_DE" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Satoshi via Fontshare -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap"
+    />
+  </head>
+  <body class="flex min-h-[100dvh] flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[2000] focus:rounded-xs focus:bg-brand focus:px-4 focus:py-2 focus:text-white"
+      >Zum Inhalt springen</a
+    >
+    <Nav />
+    <main id="main" class:list={['flex-1', mainClass]}><slot /></main>
+    <Footer />
+    <CookieConsent />
+
+    <script>
+      const mqReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      // Scroll-Reveal (kein Re-Animate; is-done gibt will-change beim Clip frei)
+      const reveal = () => {
+        const els = document.querySelectorAll('[data-reveal], [data-reveal-clip]');
+        if (!els.length) return;
+        if (mqReduce.matches) {
+          els.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (!e.isIntersecting) continue;
+              e.target.classList.add('is-visible');
+              if (e.target.hasAttribute('data-reveal-clip')) {
+                const img = e.target.querySelector('img');
+                if (img) {
+                  const done = () => {
+                    e.target.classList.add('is-done');
+                    img.removeEventListener('transitionend', done);
+                  };
+                  img.addEventListener('transitionend', done);
+                }
+              }
+              io.unobserve(e.target);
+            }
+          },
+          { threshold: 0.18, rootMargin: '0px 0px -12% 0px' }
+        );
+        els.forEach((el) => io.observe(el));
+      };
+
+      // Parallax (dezent, IO-gated, rAF-throttled, nur sichtbare [data-parallax])
+      const parallax = () => {
+        if (mqReduce.matches) return;
+        const items = Array.from(document.querySelectorAll('[data-parallax]'));
+        if (!items.length) return;
+        const active = new Set();
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) active.add(e.target);
+              else active.delete(e.target);
+            }
+          },
+          { rootMargin: '10% 0px 10% 0px' }
+        );
+        items.forEach((el) => io.observe(el));
+        let ticking = false;
+        const update = () => {
+          ticking = false;
+          const vh = window.innerHeight;
+          for (const el of active) {
+            const rect = el.getBoundingClientRect();
+            const factor = parseFloat(el.getAttribute('data-parallax')) || 0.08;
+            const progress = (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2);
+            const shift = Math.max(-24, Math.min(24, -progress * factor * 100));
+            el.style.setProperty('--parallax', shift.toFixed(2) + 'px');
+          }
+        };
+        const onScroll = () => {
+          if (!ticking) { ticking = true; requestAnimationFrame(update); }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+        update();
+      };
+
+      const init = () => { reveal(); parallax(); };
+      if (document.readyState !== 'loading') init();
+      else document.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>

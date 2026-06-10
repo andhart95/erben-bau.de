@@ -1,0 +1,131 @@
+---
+// DSGVO-konformer Opt-in-Consent (Ersatz für Finsweet). Kein externes Script,
+// keine Tracker geladen bis Zustimmung. localStorage-Persistenz. Non-blocking.
+---
+
+<div
+  id="cookie-banner"
+  class="fixed inset-x-0 bottom-0 z-[70] hidden border-t border-white/10 bg-ink text-white shadow-[0_-2px_16px_rgba(0,0,0,0.3)]"
+  role="dialog"
+  aria-label="Cookie-Einstellungen"
+  aria-live="polite"
+>
+  <div
+    class="mx-auto flex max-w-[1456px] flex-col gap-4 px-6 py-5 md:flex-row md:items-center md:justify-between md:px-10"
+  >
+    <div class="max-w-3xl">
+      <p class="mb-1 text-base font-semibold">Cookie Settings</p>
+      <p class="text-sm text-white/70">
+        Wenn Sie auf "Akzeptieren" klicken, stimmen Sie der Speicherung von Cookies auf Ihrem Gerät
+        zu, um die Navigation auf der Website zu verbessern, die Nutzung der Website zu analysieren
+        und unsere Marketingaktivitäten zu unterstützen. Weitere Informationen finden Sie in unserer
+        <a href="/datenschutz" class="underline hover:text-white">Datenschutzrichtlinie</a>.
+      </p>
+    </div>
+    <div class="flex shrink-0 flex-wrap items-center gap-3">
+      <button
+        data-cc="settings"
+        class="text-sm text-white/70 underline transition-colors hover:text-white"
+        >Einstellungen</button
+      >
+      <button
+        data-cc="deny"
+        class="rounded-xs border border-white px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-white hover:text-ink"
+        >Ablehnen</button
+      >
+      <button
+        data-cc="allow"
+        class="rounded-xs bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
+        >Annehmen</button
+      >
+    </div>
+  </div>
+</div>
+
+<dialog id="cookie-settings" class="m-auto w-[min(92vw,520px)] rounded-xs p-0 backdrop:bg-black/70">
+  <div class="bg-white p-6 text-ink">
+    <h2 class="mb-4 text-xl font-medium">Datenschutz Präferenzen</h2>
+    <ul class="flex flex-col gap-3 text-sm">
+      <li class="flex items-center justify-between gap-4">
+        <span><strong>Unverzichtbare Cookies</strong><br /><span class="text-muted">Notwendig</span></span>
+        <input type="checkbox" checked disabled aria-label="Notwendige Cookies (immer aktiv)" />
+      </li>
+      <li class="flex items-center justify-between gap-4">
+        <span>Marketing Cookies</span><input type="checkbox" data-cat="marketing" />
+      </li>
+      <li class="flex items-center justify-between gap-4">
+        <span>Personalisierungs Cookies</span><input type="checkbox" data-cat="personalization" />
+      </li>
+      <li class="flex items-center justify-between gap-4">
+        <span>Analyse-Cookies</span><input type="checkbox" data-cat="analytics" />
+      </li>
+    </ul>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button
+        data-cc="deny"
+        class="rounded-xs border border-ink px-4 py-2 text-sm font-medium transition-colors hover:bg-ink hover:text-white"
+        >Alle Cookies ablehnen</button
+      >
+      <button
+        data-cc="allow"
+        class="rounded-xs bg-brand px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-dark"
+        >Alle Cookies zulassen</button
+      >
+      <button
+        data-cc="save"
+        class="rounded-xs border border-ink px-4 py-2 text-sm font-medium transition-colors hover:bg-ink hover:text-white"
+        >Einstellungen speichern</button
+      >
+    </div>
+  </div>
+</dialog>
+
+<button
+  id="cookie-reopen"
+  type="button"
+  class="fixed bottom-4 left-4 z-[60] hidden h-10 w-10 items-center justify-center rounded-full border border-ink/15 bg-white text-lg shadow-[var(--shadow-soft)] transition-transform hover:scale-105"
+  aria-label="Cookie-Einstellungen öffnen">🍪</button
+>
+
+<script>
+  const KEY = 'eb-consent';
+  const banner = document.getElementById('cookie-banner');
+  const dialog = document.getElementById('cookie-settings') as HTMLDialogElement | null;
+  const reopen = document.getElementById('cookie-reopen');
+
+  const stored = () => {
+    try {
+      return JSON.parse(localStorage.getItem(KEY) || 'null');
+    } catch {
+      return null;
+    }
+  };
+  const save = (consent: Record<string, unknown>) => {
+    localStorage.setItem(KEY, JSON.stringify({ ...consent, necessary: true, ts: Date.now() }));
+    banner?.classList.add('hidden');
+    dialog?.close();
+    reopen?.classList.remove('hidden');
+    reopen?.classList.add('flex');
+  };
+
+  if (!stored()) banner?.classList.remove('hidden');
+  else {
+    reopen?.classList.remove('hidden');
+    reopen?.classList.add('flex');
+  }
+
+  document.querySelectorAll('[data-cc]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const a = (btn as HTMLElement).dataset.cc;
+      if (a === 'allow') save({ marketing: true, personalization: true, analytics: true });
+      else if (a === 'deny') save({ marketing: false, personalization: false, analytics: false });
+      else if (a === 'settings') dialog?.showModal();
+      else if (a === 'save') {
+        const get = (c: string) =>
+          (document.querySelector(`[data-cat="${c}"]`) as HTMLInputElement | null)?.checked ?? false;
+        save({ marketing: get('marketing'), personalization: get('personalization'), analytics: get('analytics') });
+      }
+    });
+  });
+  reopen?.addEventListener('click', () => dialog?.showModal());
+</script>

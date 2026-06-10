@@ -1,0 +1,144 @@
+---
+import Button from './Button.astro';
+
+const CAL =
+  'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3mSeSUNX1Y0Ddx15WUzG8q0enFHNT9Y9nkOn6Ooz78oN4aIrP346JlV6vsufMnr3_vrbd6NV0z';
+
+const services = [
+  {
+    id: 'baukoordination',
+    eyebrow: 'Baukoordination',
+    h2: 'Alle Gewerke aus einer Hand',
+    intro:
+      'Sie haben einen Ansprechpartner statt zehn. Wir koordinieren die Gewerke, behalten Termine und Kosten im Blick und dokumentieren jeden Schritt digital. Vor Ort, wenn es darauf ankommt, und transparent für alle Beteiligten.',
+    bullets: [
+      'Ein zentraler Ansprechpartner für alle Gewerke und den gesamten Projektablauf',
+      'Koordination der Dienstleister, Termin- und Ablaufplanung, Projektsteuerung',
+      'Vollständige digitale Dokumentation, damit jeder den gleichen Stand hat',
+      'Kaufmännische und organisatorische Entlastung im Back-Office',
+    ],
+    cta: 'Koordination anfragen',
+    img: '/img/service-baukoordination.webp',
+    imgAlt: 'Bauprojekt-Koordinator mit Tablet auf einer modernen Baustelle',
+  },
+  {
+    id: 'bausicherheit',
+    eyebrow: 'Bausicherheit',
+    h2: 'Die Baustelle im Griff',
+    intro:
+      'Eine sichere Baustelle ist eine planbare Baustelle. Wir bringen Ordnung, Zugangskontrolle und Überblick auf das Gelände, damit nichts Unvorhergesehenes Ihren Zeitplan sprengt. Das Know-how dafür kommt direkt aus dem operativen Bau.',
+    bullets: [
+      'Organisation der Baustellensicherheit und klare Zuständigkeiten vor Ort',
+      'Zugangskontrolle und Überwachung des Baustellengeländes',
+      'Sauberer, geordneter Ablauf statt Stillstand durch Zwischenfälle',
+      'Ein Ansprechpartner, der vor Ort ist und nicht nur am Telefon',
+    ],
+    cta: 'Sicherheit besprechen',
+    img: '/img/service-bausicherheit.webp',
+    imgAlt: 'Geordnete, gesicherte moderne Baustelle mit klarem Zugang',
+  },
+  {
+    id: 'wachstumspartner',
+    eyebrow: 'Wachstumspartner',
+    h2: 'Mehr Kapazität für Ihr Handwerk',
+    intro:
+      'Sie sind Handwerksbetrieb und wollen wachsen, ohne im Papierkram zu ersticken. Wir nehmen Ihnen den administrativen Aufwand ab und modernisieren Ihre internen und externen Abläufe. So gewinnen Sie Zeit für das, was Sie am besten können: Ihr Handwerk.',
+    bullets: [
+      'Prozesse modernisieren und automatisieren statt Doppelarbeit',
+      'Administrative Aufgaben übernehmen, damit Ihr Team frei wird',
+      'Zusätzliche Kapazitäten für neue Projekte schaffen',
+      'Begleitung bei der Einführung von Projektmanagement- und CRM-Systemen',
+    ],
+    cta: 'Als Partner kennenlernen',
+    img: '/img/service-wachstumspartner.webp',
+    imgAlt: 'Handwerk trifft digitale Prozesse — Werkbank mit Tablet',
+  },
+];
+---
+
+<section id="leistungen" class="scroll-mt-28 bg-beige-light">
+  <div class="mx-auto max-w-[1456px] px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] md:px-10">
+    <div class="mb-16 max-w-2xl" data-reveal>
+      <p class="eyebrow eyebrow--rule mb-5 text-muted-strong" data-stagger>Was wir tun</p>
+      <h2
+        class="text-[clamp(2rem,1.4rem+2.5vw,3rem)] font-medium leading-[1.06] tracking-[-0.01em] text-balance text-ink"
+        data-stagger
+      >
+        Drei Wege, wie wir Ihr Bauprojekt zusammenhalten
+      </h2>
+    </div>
+
+    <div class="flex flex-col">
+      {
+        services.map((s, i) => (
+          <article
+            id={s.id}
+            class={`service-row group scroll-mt-28 py-12 transition-transform duration-200 ease-out md:py-16 ${i > 0 ? 'border-t border-ink/10' : ''}`}
+            data-reveal
+            data-reveal-delay={String(Math.min(i + 1, 3))}
+          >
+            <div class="grid gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-16">
+              <div class="md:sticky md:top-28 md:self-start">
+                <div class="flex items-baseline gap-4">
+                  <span
+                    class="service-index select-none text-[clamp(2.25rem,1.5rem+2vw,3.25rem)] font-medium leading-none tabular-nums tracking-tight text-ink/15 transition-colors duration-200 ease-out"
+                    aria-hidden="true"
+                  >
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <p class="eyebrow eyebrow--rule eyebrow--block text-brand">{s.eyebrow}</p>
+                </div>
+                <h3 class="mt-5 text-[clamp(1.6rem,1.2rem+1.5vw,2.25rem)] font-medium leading-tight tracking-[-0.01em] text-ink">
+                  {s.h2}
+                </h3>
+              </div>
+
+              <div>
+                <div class="mb-8 overflow-hidden rounded-xs" style="aspect-ratio: 4 / 3;" data-reveal-clip>
+                  <img
+                    src={s.img}
+                    alt={s.imgAlt}
+                    width="1200"
+                    height="900"
+                    loading="lazy"
+                    decoding="async"
+                    class="h-full w-full object-cover"
+                  />
+                </div>
+                <p class="max-w-md text-lg leading-relaxed text-ink/80">{s.intro}</p>
+                <ul class="mt-7 flex flex-col gap-4">
+                  {s.bullets.map((b) => (
+                    <li class="flex items-start gap-3.5 text-ink/90">
+                      <span
+                        class="service-tick mt-[0.6rem] h-px w-3.5 shrink-0 origin-left bg-brand transition-transform duration-200 ease-out"
+                        aria-hidden="true"
+                      />
+                      <span class="text-base leading-relaxed">{b}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-8">
+                  <Button href={CAL} target="_blank" variant="secondary" class="text-sm">
+                    {s.cta}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (hover: hover) and (pointer: fine) {
+    .service-row:hover { transform: translateY(-2px); }
+    .service-row:hover .service-index { color: rgb(20 18 18 / 0.28); }
+    .service-row:hover .service-tick { transform: scaleX(1.6); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .service-row { transform: none !important; }
+    .service-tick { transition: none !important; }
+  }
+</style>

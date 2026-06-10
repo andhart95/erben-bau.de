@@ -1,0 +1,35 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline-light' | 'secondary' | 'outline-light-full';
+  target?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+const { href, variant = 'primary', target, type = 'button', class: cls = '' } = Astro.props;
+
+const base =
+  'btn-eb group inline-flex items-center justify-center gap-2 rounded-xs px-5 py-3 text-[1.0625rem] font-medium leading-none min-h-11 transition-[color,background-color,transform,border-color] duration-100 ease-out';
+
+const variants: Record<string, string> = {
+  primary: 'is-primary bg-brand text-white hover:bg-brand-dark hover:-translate-y-px active:translate-y-0',
+  'outline-light': 'border border-white text-white hover:bg-white hover:text-ink',
+  secondary: 'border border-ink text-ink hover:bg-ink hover:text-white',
+  'outline-light-full': 'w-full border border-white text-white hover:bg-white hover:text-ink',
+};
+
+const klass = `${base} ${variants[variant]} ${cls}`;
+const rel = target === '_blank' ? 'noopener noreferrer' : undefined;
+---
+
+{
+  href ? (
+    <a href={href} target={target} rel={rel} class={klass}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={klass}>
+      <slot />
+    </button>
+  )
+}

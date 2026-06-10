@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+// Legal-Volltext 1:1 aus dem Original-Scrape (verbatim, inkl. Original-Anomalien).
+import body from '../content/datenschutz-body.html?raw';
+---
+
+<Layout title="Erben Bau: Datenschutz" description="Datenschutzerklärung der Erben Services UG.">
+  <article class="bg-white">
+    <div class="prose-legal mx-auto max-w-[800px] px-6 pb-24 pt-32 md:px-10">
+      <h1 class="mb-8 text-4xl font-medium tracking-[-0.01em] text-ink">Datenschutz</h1>
+      <Fragment set:html={body} />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .prose-legal :global(h2) {
+    margin-top: 2.25rem;
+    margin-bottom: 0.6rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .prose-legal :global(p) {
+    margin-bottom: 0.9rem;
+    line-height: 1.7;
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--color-ink) 78%, white);
+  }
+  .prose-legal :global(ul) {
+    margin: 0.5rem 0 1.2rem 1.25rem;
+    list-style: disc;
+  }
+  .prose-legal :global(li) {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    color: color-mix(in srgb, var(--color-ink) 78%, white);
+  }
+  .prose-legal :global(a) {
+    color: var(--color-brand);
+    text-decoration: underline;
+    word-break: break-word;
+  }
+  .prose-legal :global(strong) {
+    color: var(--color-ink);
+  }
+</style>

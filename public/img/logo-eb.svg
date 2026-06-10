@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1017" height="224" viewBox="0 0 1017 224">
+  <defs>
+    <clipPath id="clip-EB_logomark_black_5">
+      <rect width="1017" height="224"/>
+    </clipPath>
+  </defs>
+  <g id="EB_logomark_black_5" data-name="EB_logomark_black – 5" clip-path="url(#clip-EB_logomark_black_5)">
+    <g id="Gruppe_904" data-name="Gruppe 904">
+      <g id="Gruppe_901" data-name="Gruppe 901" transform="translate(-683)">
+        <rect id="Rechteck_491" data-name="Rechteck 491" width="171" height="42" transform="translate(683)" fill="#fff"/>
+        <g id="Gruppe_901-2" data-name="Gruppe 901">
+          <rect id="Rechteck_425" data-name="Rechteck 425" width="159" height="39" transform="translate(683 89)" fill="#fff"/>
+          <rect id="Rechteck_492" data-name="Rechteck 492" width="171" height="42" transform="translate(683 182)" fill="#fff"/>
+          <rect id="Rechteck_493" data-name="Rechteck 493" width="131" height="50" transform="translate(733 89) rotate(90)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Gruppe_902" data-name="Gruppe 902" transform="translate(-55)">
+        <rect id="Rechteck_491-2" data-name="Rechteck 491" width="171" height="42" transform="translate(683)" fill="#fff"/>
+        <g id="Gruppe_901-3" data-name="Gruppe 901">
+          <rect id="Rechteck_425-2" data-name="Rechteck 425" width="159" height="39" transform="translate(683 89)" fill="#fff"/>
+          <rect id="Rechteck_492-2" data-name="Rechteck 492" width="171" height="42" transform="translate(683 182)" fill="#fff"/>
+          <rect id="Rechteck_493-2" data-name="Rechteck 493" width="131" height="50" transform="translate(733 89) rotate(90)" fill="#fff"/>
+        </g>
+      </g>
+      <path id="Vereinigungsmenge_4" data-name="Vereinigungsmenge 4" d="M139.015,224l-34.941-96H50v96H0V0H122a63.7,63.7,0,0,1,35.783,10.931,64.19,64.19,0,0,1,23.188,28.158,63.91,63.91,0,0,1-5.9,60.694,64.19,64.19,0,0,1-28.158,23.188q-1.242.525-2.5,1L183.914,224ZM50,89h69a24,24,0,1,0,0-48H50Z" transform="translate(200)" fill="#fff"/>
+      <g id="Gruppe_903" data-name="Gruppe 903" transform="translate(17762 24686)">
+        <path id="Differenzmenge_8" data-name="Differenzmenge 8" d="M122,128H0V0H122a63.7,63.7,0,0,1,35.783,10.93,64.189,64.189,0,0,1,23.188,28.158,63.915,63.915,0,0,1-5.9,60.695,64.187,64.187,0,0,1-28.158,23.187A63.6,63.6,0,0,1,122,128ZM50,41V89h69a24,24,0,1,0,0-48Z" transform="translate(-17349 -24686)" fill="#fff"/>
+        <path id="Differenzmenge_9" data-name="Differenzmenge 9" d="M118.5,135H0V0H118.5a67.184,67.184,0,0,1,37.74,11.528,67.7,67.7,0,0,1,24.456,29.7,67.411,67.411,0,0,1-6.224,64.014,67.7,67.7,0,0,1-29.7,24.456A67.077,67.077,0,0,1,118.5,135ZM50,39.242V93.867h65.687a27.313,27.313,0,1,0,0-54.626Z" transform="translate(-17349 -24597)" fill="#fff"/>
+      </g>
+      <path id="Vereinigungsmenge_5" data-name="Vereinigungsmenge 5" d="M17781.852,24592.064l-93.855-153.7v153.678h-46v-224h3.057l-.174-.283,46.215.023,93.9,151.807v-151.547h46v224h-1.182l.027.043Z" transform="translate(-16814 -24367.766)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

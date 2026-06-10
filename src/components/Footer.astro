@@ -1,0 +1,22 @@
+---
+const links = [
+  { label: 'Erben Services © 2025', href: '/ueber-uns' },
+  { label: 'Datenschutz u. Rechtsgrundlagen', href: '/datenschutz' },
+  { label: 'Impressum', href: '/impressum' },
+  { label: 'Kontakt', href: '/kontakt' },
+];
+---
+
+<footer class="bg-ink text-[#f4f4f4]">
+  <div
+    class="mx-auto flex max-w-[1456px] flex-col items-center gap-3 px-6 py-10 text-center text-sm md:flex-row md:flex-wrap md:justify-center md:gap-x-8 md:px-10"
+  >
+    {
+      links.map((l) => (
+        <a href={l.href} class="text-white/70 transition-colors duration-100 hover:text-white">
+          {l.label}
+        </a>
+      ))
+    }
+  </div>
+</footer>

@@ -1,0 +1,237 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/Button.astro';
+
+const CAL =
+  'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3mSeSUNX1Y0Ddx15WUzG8q0enFHNT9Y9nkOn6Ooz78oN4aIrP346JlV6vsufMnr3_vrbd6NV0z';
+
+const werte = [
+  {
+    h: 'Vertrauen statt Kontrolle',
+    t: 'Motivation entsteht nicht durch Druck, sondern durch Bedeutung. Wir geben jedem Gewerk einen klaren Rahmen und das Vertrauen, darin gut zu arbeiten. Weniger Chaos auf der Baustelle durch mehr Vertrauen.',
+  },
+  {
+    h: 'Fehler offen ansprechen',
+    t: 'Auf Baustellen passieren Fehler jeden Tag. Das eigentliche Problem ist, dass niemand darüber redet. Wir reden, bevor es teuer wird. Fehlerkultur ist für uns kein Schlagwort, sondern die billigste Versicherung gegen Bauverzögerungen.',
+  },
+  {
+    h: 'Bauen ist Teamsport',
+    t: 'Niemand baut allein. Bauherr, Bauleitung und Handwerk ziehen am selben Strang oder gar nicht. Wir bringen die Beteiligten zusammen und sorgen dafür, dass aus vielen einzelnen Leistungen ein Ergebnis wird.',
+  },
+  {
+    h: 'Wertschätzung gehört dazu',
+    t: 'Gute Arbeit verdient Anerkennung. Wer sich gesehen fühlt, arbeitet besser, kommuniziert offener und denkt mit. Wertschätzung ist für uns ein Führungsinstrument, kein nettes Extra.',
+  },
+  {
+    h: 'Aus jedem Projekt lernen',
+    t: 'Wir arbeiten mit praxiserprobten Systemen, die sich mit jedem Projekt verbessern. Was auf der letzten Baustelle gut lief, nehmen wir mit. Was nicht funktioniert hat, ändern wir. So wird jedes Projekt ein Stück besser als das davor.',
+  },
+];
+---
+
+<Layout
+  title="Über uns — Erben Bau"
+  description="Erben Bau aus München hält Bauprojekte zusammen. Gegründet von Cihan Erben. Vertrauen statt Kontrolle, offene Fehlerkultur und eine Arbeitsweise, die aus jedem Projekt lernt."
+>
+  <!-- Intro -->
+  <section class="bg-ink text-white">
+    <div class="mx-auto max-w-[1456px] px-6 pb-[clamp(3rem,2rem+4vw,6rem)] pt-32 md:px-10">
+      <p class="eyebrow mb-3 text-white/70" data-reveal>Über uns</p>
+      <span class="mb-7 block h-px w-16 bg-brand" aria-hidden="true" data-reveal data-reveal-delay="1"></span>
+      <h1
+        class="max-w-3xl text-[clamp(2.5rem,1.4rem+4vw,4.8rem)] font-medium leading-[1.04] tracking-[-0.02em]"
+        data-reveal
+        data-reveal-delay="1"
+      >
+        Bauen ist Teamsport
+      </h1>
+      <p
+        class="mt-6 max-w-2xl text-[clamp(1.25rem,1.1rem+0.6vw,1.5rem)] leading-relaxed text-white/90"
+        data-reveal
+        data-reveal-delay="2"
+      >
+        Bauprojekte scheitern selten am Handwerk. Sie scheitern an Kommunikation, Koordination und
+        fehlender Übersicht. Genau da setzen wir an.
+      </p>
+      <p class="mt-5 max-w-2xl text-lg leading-relaxed text-white/65" data-reveal data-reveal-delay="3">
+        Erben Bau ist ein Bau-Koordinationsdienstleister aus München. Wir führen keine Gewerke aus.
+        Wir halten sie zusammen. Vom Bauherrn über die Bauleitung bis zum Handwerker auf der
+        Baustelle. Ein Ansprechpartner. Klare Abläufe. Volle Transparenz. Für private und gewerbliche
+        Bauherren.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-4" data-reveal data-reveal-delay="3">
+        <Button href={CAL} target="_blank" variant="primary">Beratungstermin vereinbaren</Button>
+        <Button href="/kontakt" variant="outline-light">Kontakt aufnehmen</Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Atmosphäre / Team -->
+  <section class="bg-ink">
+    <div class="mx-auto max-w-[1456px] md:px-10">
+      <figure class="eb-band relative overflow-hidden md:rounded-xs" data-reveal>
+        <img
+          src="/img/team-office.jpg"
+          alt="Cihan Erben mit dem Team von Erben Bau im Büro"
+          width="800"
+          height="979"
+          loading="lazy"
+          decoding="async"
+          class="eb-band-img h-[62vh] w-full object-cover object-center"
+        />
+        <figcaption
+          class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-6 md:p-10"
+        >
+          <p class="eyebrow text-brand-light">Vor Ort, im Team</p>
+          <p class="mt-2 max-w-xl text-lg leading-relaxed text-white md:text-xl">
+            Bauen ist Zusammenarbeit. Wir sind dort, wo Entscheidungen fallen: auf der Baustelle und
+            am Tisch mit allen Beteiligten.
+          </p>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Warum wir tun was wir tun -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-[860px] px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] md:px-10" data-reveal>
+      <h2 class="text-[clamp(2rem,1.4rem+2.5vw,3rem)] font-medium leading-[1.1] tracking-[-0.01em] text-ink">
+        Warum wir tun was wir tun
+      </h2>
+      <div class="mt-8 flex flex-col gap-5 text-lg leading-relaxed text-ink/80">
+        <p>
+          Viele Bauprojekte werden heute noch geführt wie vor dreißig Jahren. Man reagiert, statt zu
+          steuern. Man sucht Schuldige, statt Lösungen. Und man lernt nicht aus Fehlern. Also
+          wiederholen sie sich auf der nächsten Baustelle.
+        </p>
+        <p class="text-ink font-medium">Wir glauben, dass es anders geht.</p>
+        <p>
+          Wenn die Zusammenarbeit auf einer Baustelle nicht funktioniert, entsteht automatisch Chaos.
+          Verzögerungen. Missverständnisse. Steigende Kosten. Frust bei allen Beteiligten. Das hat
+          selten mit den Menschen zu tun. Meistens fehlt eine Stelle, die alles zusammenhält.
+        </p>
+        <p class="text-ink font-medium">Diese Stelle sind wir.</p>
+        <p>
+          Wir koordinieren die Gewerke, dokumentieren digital, was passiert, und sorgen dafür, dass
+          jeder Beteiligte zur richtigen Zeit die richtigen Informationen hat. Mehr Kontrolle und mehr
+          Druck machen ein Bauprojekt nicht besser. Sie machen es nur teurer. Was wirklich hilft, ist
+          Vertrauen, klare Verantwortung und eine Arbeitsweise, die aus jedem Projekt lernt.
+        </p>
+        <p>
+          Jedes einzelne Detail unserer Arbeit messen wir an einem Ziel: die Zusammenarbeit im Bau
+          konstant zu verbessern. So lange, bis am Ende jeder sagen kann: Das war das beste
+          Bauprojekt, in dem ich je gearbeitet habe.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Werte -->
+  <section class="bg-beige-light">
+    <div class="mx-auto max-w-[1456px] px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] md:px-10">
+      <h2 class="mb-12 text-[clamp(2rem,1.4rem+2.5vw,3rem)] font-medium tracking-[-0.01em] text-ink" data-reveal>
+        Woran wir uns halten
+      </h2>
+      <div class="grid gap-px overflow-hidden rounded-xs border border-ink/10 bg-ink/10 md:grid-cols-2 lg:grid-cols-3">
+        {
+          werte.map((w, i) => (
+            <div
+              class="eb-value group flex flex-col bg-white p-8 transition-transform duration-200 ease-out hover:-translate-y-0.5"
+              data-reveal
+              data-reveal-delay={String(i % 3 === 0 ? 0 : i % 3)}
+            >
+              <span
+                class="mb-4 block h-2 w-8 rounded-full bg-brand transition-[width] duration-200 ease-out group-hover:w-12"
+                aria-hidden="true"
+              />
+              <h3 class="text-xl font-medium text-ink">{w.h}</h3>
+              <p class="mt-3 text-base leading-relaxed text-ink/75">{w.t}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder -->
+  <section class="bg-white">
+    <div
+      class="mx-auto grid max-w-[1100px] gap-10 px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] md:grid-cols-[0.85fr_1.15fr] md:gap-16 md:px-10"
+    >
+      <div class="md:sticky md:top-28 md:self-start" data-reveal>
+        <div class="relative w-full max-w-[320px]">
+          <span
+            aria-hidden="true"
+            class="absolute -bottom-3 -right-3 -z-10 h-full w-full rounded-xs border border-brand/40"
+          ></span>
+          <div class="overflow-hidden rounded-xs">
+            <img
+              src="/img/cihan-portrait.jpg"
+              alt="Cihan Erben, Gründer und Geschäftsführer von Erben Bau"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async"
+              class="aspect-square w-full object-cover"
+            />
+          </div>
+        </div>
+        <p class="eyebrow mt-7 text-brand">Der Gründer</p>
+        <p class="mt-1 text-2xl font-medium text-ink">Cihan Erben</p>
+        <p class="text-muted">Gründer und Geschäftsführer, Erben Bau</p>
+      </div>
+      <div data-reveal>
+        <div class="flex flex-col gap-5 text-lg leading-relaxed text-ink/80">
+          <p>
+            Ich komme aus dem Bau. In einem familiengeführten Bau-Dienstleistungsbetrieb habe ich den
+            operativen Alltag von der Baustelle aus kennengelernt: Baulogistik, Baustellensicherheit,
+            die Koordination vieler Beteiligter unter Termindruck.
+          </p>
+          <p>
+            Daneben habe ich Angewandte Psychologie und International Management studiert. Diese
+            Kombination prägt, wie ich auf den Bau schaue. Technik und Material sind selten das
+            Problem. Das Problem ist fast immer die Zusammenarbeit zwischen Menschen.
+          </p>
+          <p>
+            Genau deshalb gibt es Erben Bau. Ich wollte einen Partner schaffen, der nicht noch ein
+            Gewerk ausführt, sondern den ganzen Prozess zusammenhält. Mit klaren Abläufen, digitaler
+            Dokumentation und einer Haltung, die auf Vertrauen statt auf Druck setzt.
+          </p>
+          <p class="border-l-2 border-brand pl-5 text-xl font-medium text-ink">
+            Mein Anspruch ist einfach: Bauen soll stressfreier, transparenter und termintreuer werden.
+            Für jeden, der mitbaut.
+          </p>
+        </div>
+        <div class="mt-8">
+          <Button href="/kontakt" variant="secondary">Lernen wir uns kennen</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Abschluss-CTA -->
+  <section class="bg-ink text-white">
+    <div class="mx-auto max-w-[860px] px-6 py-[clamp(4rem,2.5rem+6vw,8rem)] text-center md:px-10" data-reveal>
+      <h2 class="text-[clamp(2rem,1.4rem+2.5vw,3rem)] font-medium tracking-[-0.01em]">
+        Lassen Sie uns über Ihr Projekt sprechen
+      </h2>
+      <p class="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/80">
+        Ob privat oder gewerblich, ob Renovierung, Sanierung oder ein neues Bauvorhaben: In einem
+        ersten Gespräch klären wir, wo Sie stehen und wie wir Ihnen die Koordination abnehmen können.
+        Unverbindlich und konkret.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <Button href={CAL} target="_blank" variant="primary">Beratungstermin vereinbaren</Button>
+        <Button href="/kontakt" variant="outline-light">Kontakt aufnehmen</Button>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Sehr dezenter Ken-Burns-Drift am Team-Band (Scale <= 1.05), erst beim Reveal */
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .eb-band-img { transform: scale(1.001); transition: transform 8s linear; }
+    .eb-band.is-visible .eb-band-img { transform: scale(1.05); }
+  }
+</style>

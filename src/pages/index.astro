@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import SplitSection from '../components/SplitSection.astro';
+import Services from '../components/Services.astro';
+import Gallery from '../components/Gallery.astro';
+import TestimonialCarousel from '../components/TestimonialCarousel.astro';
+import ContactSection from '../components/ContactSection.astro';
+
+const CAL =
+  'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3mSeSUNX1Y0Ddx15WUzG8q0enFHNT9Y9nkOn6Ooz78oN4aIrP346JlV6vsufMnr3_vrbd6NV0z';
+---
+
+<Layout title="Erben Bau: Home">
+  <Hero />
+
+  <!-- Eyebrow-Band -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-[1456px] px-6 pt-20 text-center md:px-10" data-reveal>
+      <p class="eyebrow text-muted">Was macht Erben Services so besonders?</p>
+    </div>
+  </section>
+
+  <!-- Intro: Gemeinsam vor Ort & digital (Text links, Bild rechts) -->
+  <SplitSection
+    eyebrow="Über uns"
+    heading={['Gemeinsam', 'vor Ort &', 'digital']}
+    body="Ob Baukoordination, Bausicherheit oder als Wachstumspartner für innovative Produkte und Dienstleistungen im Bau – wir begleiten, sichern und beschleunigen Ihre Bauprojekte als starker und transparenter Partner für private und gewerbliche Kunden."
+    cta={{ label: 'Kontakt aufnehmen', href: CAL, target: '_blank', variant: 'secondary' }}
+    image={{ src: '/img/worker-desk.webp', alt: 'Erben Bau Mitarbeiter am Laptop, Nahaufnahme', width: 665, height: 1000 }}
+  />
+
+  <!-- Warum wir tun was wir tun (Bild links, Text rechts) -->
+  <SplitSection
+    eyebrow="Über uns"
+    heading={['Warum wir tun', 'was wir tun']}
+    body="Jedes einzelne Detail unserer Dienstleistungen wird an unserem kontinuierlichen Ziel gemessen: Die Zusammenarbeit im Bau konstant zu verbessern."
+    cta={{ label: 'Weitere Infos', href: '/ueber-uns', variant: 'secondary' }}
+    image={{ src: '/img/billboard.webp', alt: 'Erben Bau schwarzes Reklameschild an einer Bürogebäude-Glasfassade', width: 850, height: 1000 }}
+    reverse={true}
+  />
+
+  <Services />
+  <Gallery />
+  <TestimonialCarousel />
+  <ContactSection />
+</Layout>

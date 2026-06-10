@@ -1,0 +1,58 @@
+---
+import Button from './Button.astro';
+
+interface Props {
+  eyebrow?: string;
+  heading: string[];
+  body: string;
+  cta?: { label: string; href: string; target?: string; variant?: 'primary' | 'secondary' | 'outline-light' };
+  image: { src: string; alt: string; width: number; height: number };
+  reverse?: boolean; // true => Bild links, Text rechts
+}
+const { eyebrow, heading, body, cta, image, reverse = false } = Astro.props;
+
+const portrait = image.height > image.width;
+const ratio = portrait ? '4 / 5' : '4 / 3'; // einheitliche Bildhöhe über alle SplitSections
+const parallax = portrait ? '0.04' : '0.06';
+---
+
+<section class="bg-white">
+  <div class="mx-auto grid max-w-[1456px] items-center gap-10 px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] md:grid-cols-2 md:gap-16 md:px-10">
+    <!-- Bild: Clip-Wipe + Parallax -->
+    <div class={`order-2 ${reverse ? 'md:order-1' : 'md:order-2'}`}>
+      <div class="relative overflow-hidden rounded-xs" style={`aspect-ratio:${ratio};`} data-reveal-clip>
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
+          loading="lazy"
+          decoding="async"
+          data-parallax={parallax}
+          class="absolute inset-x-0 top-[-6%] h-[112%] w-full object-cover"
+        />
+      </div>
+    </div>
+
+    <!-- Text: gestaffelter Reveal, Eyebrow mit Strich -->
+    <div class={`order-1 ${reverse ? 'md:order-2' : 'md:order-1'}`} data-reveal>
+      {eyebrow && <p class="eyebrow eyebrow--rule mb-5 text-muted" data-stagger>{eyebrow}</p>}
+      <h2
+        class="text-[clamp(2rem,1.4rem+2.5vw,3rem)] font-medium leading-[1.06] tracking-[-0.01em] text-balance text-ink"
+        data-stagger
+      >
+        {heading.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+      </h2>
+      <p class="mt-7 max-w-xl text-lg leading-relaxed text-ink/80" data-stagger>{body}</p>
+      {
+        cta && (
+          <div class="mt-8" data-stagger>
+            <Button href={cta.href} target={cta.target} variant={cta.variant ?? 'secondary'}>
+              {cta.label}
+            </Button>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

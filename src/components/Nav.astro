@@ -1,0 +1,131 @@
+---
+import Button from './Button.astro';
+
+const links = [
+  { label: 'Baukoordination', href: '/#baukoordination' },
+  { label: 'Bausicherheit', href: '/#bausicherheit' },
+  { label: 'Wachstumspartner', href: '/#wachstumspartner' },
+  { label: 'Über Uns', href: '/ueber-uns' },
+];
+---
+
+<nav id="site-nav" class="sticky top-0 z-50 bg-ink text-white transition-[box-shadow] duration-200 ease-out">
+  <div class="mx-auto flex max-w-[1456px] items-center justify-between px-6 md:px-10">
+    <a href="/" class="flex items-center" aria-label="Erben Bau — Startseite">
+      <img src="/img/logo-eb.svg" alt="Erben Bau" width="110" height="24" class="h-6 w-auto [filter:brightness(0)_invert(1)]" />
+    </a>
+
+    <!-- Desktop -->
+    <div class="hidden items-center gap-8 md:flex">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            data-nav-link
+            data-target={l.href.startsWith('/#') ? l.href.slice(2) : ''}
+            class="nav-link text-sm font-medium text-white/90 transition-colors duration-100 hover:text-white"
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <Button href="/kontakt" variant="primary" class="px-4 py-2 text-sm">Kontakt</Button>
+    </div>
+
+    <!-- Burger -->
+    <button
+      id="nav-burger"
+      type="button"
+      class="flex h-11 w-11 items-center justify-center md:hidden"
+      aria-label="Menü öffnen"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span class="relative block h-4 w-6">
+        <span class="absolute left-0 top-0 h-0.5 w-6 bg-white"></span>
+        <span class="absolute left-0 top-1.5 h-0.5 w-6 bg-white"></span>
+        <span class="absolute left-0 top-3 h-0.5 w-6 bg-white"></span>
+      </span>
+    </button>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div
+    id="mobile-menu"
+    class="invisible fixed inset-0 z-[60] translate-x-full bg-ink text-white opacity-0 transition-[transform,opacity,visibility] duration-200 ease-out md:hidden"
+    aria-hidden="true"
+  >
+    <div class="flex items-center justify-between px-6 py-4">
+      <span class="text-sm font-semibold tracking-[0.12em] uppercase">Menü</span>
+      <button id="nav-close" type="button" class="flex h-11 w-11 items-center justify-center text-2xl" aria-label="Menü schließen">&times;</button>
+    </div>
+    <div class="flex flex-col gap-2 px-6 pt-6">
+      {links.map((l) => (<a href={l.href} class="mobile-link border-b border-white/10 py-4 text-xl font-medium">{l.label}</a>))}
+      <a href="/kontakt" class="mobile-link mt-6 rounded-xs bg-brand px-5 py-4 text-center text-lg font-medium text-white">Kontakt aufnehmen</a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  const burger = document.getElementById('nav-burger');
+  const closeBtn = document.getElementById('nav-close');
+  const menu = document.getElementById('mobile-menu');
+  const root = document.documentElement;
+
+  const focusable = () =>
+    menu ? [...menu.querySelectorAll<HTMLElement>('a[href], button')] : [];
+
+  const open = () => {
+    menu?.classList.remove('invisible', 'translate-x-full', 'opacity-0');
+    menu?.setAttribute('aria-hidden', 'false');
+    burger?.setAttribute('aria-expanded', 'true');
+    root.style.overflow = 'hidden';
+    focusable()[0]?.focus();
+  };
+  const shut = () => {
+    menu?.classList.add('invisible', 'translate-x-full', 'opacity-0');
+    menu?.setAttribute('aria-hidden', 'true');
+    burger?.setAttribute('aria-expanded', 'false');
+    root.style.overflow = '';
+    burger?.focus();
+  };
+  burger?.addEventListener('click', open);
+  closeBtn?.addEventListener('click', shut);
+  menu?.querySelectorAll('.mobile-link').forEach((a) => a.addEventListener('click', shut));
+  document.addEventListener('keydown', (e) => {
+    if (menu?.getAttribute('aria-hidden') !== 'false') return;
+    if (e.key === 'Escape') shut();
+    if (e.key === 'Tab') {
+      const f = focusable();
+      if (!f.length) return;
+      const first = f[0];
+      const last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  // Scroll-Shift via Token-Shadow-Klasse
+  const onScroll = () => nav?.classList.toggle('is-scrolled', window.scrollY > 24);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // Active-Link: aktuelle Sektion → aria-current
+  const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('[data-nav-link]')];
+  const sectionMap = new Map<string, HTMLAnchorElement>();
+  navLinks.forEach((a) => { if (a.dataset.target) sectionMap.set(a.dataset.target, a); });
+  const sections = [...sectionMap.keys()].map((id) => document.getElementById(id)).filter((el): el is HTMLElement => !!el);
+  if (sections.length) {
+    const setActive = (id: string | null) =>
+      navLinks.forEach((a) => a.setAttribute('aria-current', a.dataset.target && a.dataset.target === id ? 'true' : 'false'));
+    const spy = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: 0 }
+    );
+    sections.forEach((s) => spy.observe(s));
+  }
+</script>

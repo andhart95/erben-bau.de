@@ -1,0 +1,135 @@
+---
+// Brand-Statement + Zoom-Parallax-Galerie (adaptiert von framer-motion ZoomParallax → vanilla JS für Astro).
+// SCHÄRFE-TRICK ("downscale statt upscale"): jedes Bild wird physisch in seiner ZIEL-Größe (Basis × scale)
+// gerendert und per transform von scale(1/t) → scale(1) HERUNTERskaliert. Downscaling ist immer scharf —
+// kein GPU-Upscale-Blur. Visuell identisch zum Original (scale 1 → t), aber gestochen scharf.
+// Läuft auf ALLEN Viewports (responsive via vw/vh). Reduced-motion → statisches editoriales Grid.
+
+// Pro Bild: target-Zoom t + Basis-Frame (vw/vh) + Offset (vw/vh) aus der Original-Choreographie.
+const items = [
+  { src: '/img/gallery-1.webp', alt: 'Renoviertes Wohnzimmer mit Holzboden und Holzdecke',            t: 3.5, bw: 25, bh: 25, ox: 0,     oy: 0 },
+  { src: '/img/gallery-3.webp', alt: 'Renovierter Raum in minimalem Holzstil mit Couch und Fenster',  t: 4,   bw: 35, bh: 30, ox: 5,     oy: -30 },
+  { src: '/img/gallery-2.webp', alt: 'Mehrstöckiges Haus von außen mit Glasfront',                    t: 4.5, bw: 20, bh: 45, ox: -25,   oy: -10 },
+  { src: '/img/gallery-4.webp', alt: 'Schwarzes EB-Reklameschild an Hauswand mit Goldschrift',        t: 4,   bw: 25, bh: 25, ox: 27.5,  oy: 0 },
+  { src: '/img/gallery-5.webp', alt: 'Renoviertes Haus von innen mit Treppe und Holzboden',           t: 4.5, bw: 20, bh: 25, ox: 5,     oy: 27.5 },
+  { src: '/img/gallery-6.webp', alt: 'Materialdetail aus Holz, Beton und Glas in warmem Tageslicht',  t: 5,   bw: 30, bh: 25, ox: -22.5, oy: 27.5 },
+  { src: '/img/gallery-7.webp', alt: 'Modernes Haus in der Dämmerung mit warm beleuchteten Fenstern', t: 5.5, bw: 15, bh: 15, ox: 25,    oy: 22.5 },
+];
+const round = (n: number) => Math.round(n * 1000) / 1000;
+---
+
+<section class="bg-white">
+  <div class="mx-auto flex max-w-[1456px] flex-col items-center px-6 pt-[clamp(4rem,2.5rem+6vw,9rem)] text-center md:px-10" data-reveal>
+    <img
+      src="/img/logomark.png"
+      alt="ERBEN — Gemeinsam besser bauen"
+      width="367"
+      height="120"
+      loading="lazy"
+      class="h-auto w-[240px] md:w-[320px]"
+    />
+  </div>
+
+  <div class="zoom-container" data-zoom>
+    <div class="zoom-sticky">
+      {
+        items.map((img, i) => (
+          <div
+            class={`zoom-item zoom-item-${i}`}
+            data-t={img.t}
+            style={`--fw:${round(img.bw * img.t)}vw; --fh:${round(img.bh * img.t)}vh; --fx:${round(img.ox * img.t)}vw; --fy:${round(img.oy * img.t)}vh; --s0:${round(1 / img.t)};`}
+          >
+            <div class="zoom-frame overflow-hidden rounded-xs">
+              <img src={img.src} alt={img.alt} loading="lazy" decoding="async" class="zoom-img h-full w-full object-cover" />
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .zoom-container { position: relative; height: 300vh; }
+  .zoom-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+  .zoom-item {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Start herunterskaliert (downscale = scharf); JS interpoliert --s0 → 1 */
+    transform: scale(var(--s0));
+    will-change: transform;
+  }
+  /* Frame physisch in ZIEL-Größe (Basis × t) + skalierter Offset → wird per item-scale downscaled */
+  .zoom-frame {
+    position: relative;
+    width: var(--fw);
+    height: var(--fh);
+    top: var(--fy);
+    left: var(--fx);
+  }
+
+  /* Fallback: reduced-motion → statisches editoriales Grid */
+  @media (prefers-reduced-motion: reduce) {
+    .zoom-container { height: auto !important; }
+    .zoom-sticky {
+      position: static !important; height: auto !important;
+      display: grid; grid-template-columns: repeat(2, 1fr); grid-auto-flow: dense;
+      gap: 12px; max-width: 720px; margin: 2.5rem auto 0; padding: 0 1.25rem;
+    }
+    .zoom-item {
+      position: static !important; transform: none !important; will-change: auto !important; display: block;
+    }
+    .zoom-frame {
+      position: static !important; top: auto !important; left: auto !important;
+      width: 100% !important; height: auto !important; aspect-ratio: 4 / 5; overflow: hidden;
+    }
+    .zoom-item-0 { grid-column: 1 / -1; }
+    .zoom-item-0 .zoom-frame { aspect-ratio: 16 / 9; }
+    .zoom-item-2 .zoom-frame, .zoom-item-5 .zoom-frame { aspect-ratio: 3 / 4; }
+    .zoom-item-6 .zoom-frame { aspect-ratio: 3 / 2; }
+  }
+</style>
+
+<script>
+  const container = document.querySelector('[data-zoom]') as HTMLElement | null;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (container && !reduce) {
+    const items = [...container.querySelectorAll<HTMLElement>('.zoom-item')];
+    const tVals = items.map((el) => parseFloat(el.dataset.t || '4'));
+
+    let ticking = false;
+    let inView = false;
+
+    const update = () => {
+      ticking = false;
+      const rect = container.getBoundingClientRect();
+      const total = container.offsetHeight - window.innerHeight;
+      const progress = Math.min(Math.max(-rect.top / total, 0), 1);
+      items.forEach((el, i) => {
+        const t = tVals[i];
+        // Downscale: visuell identisch zu Upscale (1→t), aber via scale(1/t → 1) → immer scharf.
+        const s = (1 + progress * (t - 1)) / t;
+        el.style.transform = `scale(${s.toFixed(4)})`;
+      });
+    };
+    const onScroll = () => {
+      if (!inView) return;
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        inView = entries[0].isIntersecting;
+        if (inView) update();
+      },
+      { rootMargin: '20% 0px 20% 0px' }
+    );
+    io.observe(container);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  }
+</script>

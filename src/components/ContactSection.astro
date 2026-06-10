@@ -1,0 +1,151 @@
+---
+import Button from './Button.astro';
+
+const CAL =
+  'https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ3mSeSUNX1Y0Ddx15WUzG8q0enFHNT9Y9nkOn6Ooz78oN4aIrP346JlV6vsufMnr3_vrbd6NV0z';
+
+interface Props {
+  heading?: string[];
+  headingAs?: 'h1' | 'h2';
+}
+const { heading = ['Beratungstermin', 'vereinbaren'], headingAs = 'h2' } = Astro.props;
+const Heading = headingAs;
+---
+
+<section id="kontakt" class="scroll-mt-20 bg-ink text-white">
+  <div
+    class="mx-auto grid max-w-[1456px] gap-12 px-6 py-[clamp(4rem,2.5rem+6vw,8rem)] md:grid-cols-2 md:gap-16 md:px-10"
+  >
+    <!-- Linke Spalte: CTA + Kontaktdaten -->
+    <div data-reveal>
+      <Heading class="text-[clamp(2rem,1.4rem+2.5vw,3rem)] font-medium leading-[1.08] tracking-[-0.01em]">
+        {heading.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+      </Heading>
+      <div class="mt-8">
+        <Button href={CAL} target="_blank" variant="primary" class="w-full sm:w-auto">Beratungstermin</Button>
+      </div>
+      <p class="mt-10 text-lg">Kontaktieren Sie uns gerne!</p>
+      <div class="mt-4 flex flex-col gap-3">
+        <a href="mailto:info@erben-bau.de?subject=Anfrage%3A" class="flex items-center gap-3 text-white/90 transition-colors hover:text-brand-light">
+          <img src="/img/icon-mail.svg" alt="" width="20" height="20" class="h-5 w-5" />
+          info@erben-bau.de
+        </a>
+        <a href="tel:+491604525935" class="flex items-center gap-3 text-white/90 transition-colors hover:text-brand-light">
+          <img src="/img/icon-phone.svg" alt="" width="20" height="20" class="h-5 w-5" />
+          +49 160 45 25 935
+        </a>
+      </div>
+    </div>
+
+    <!-- Rechte Spalte: Formular (Netlify Forms) -->
+    <div data-reveal>
+      <form
+        id="eb-form"
+        name="kontakt"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="flex flex-col gap-5"
+      >
+        <input type="hidden" name="form-name" value="kontakt" />
+        <p class="hidden">
+          <label>Bitte leer lassen: <input name="bot-field" /></label>
+        </p>
+
+        <div>
+          <label for="f-name" class="mb-1.5 block text-sm">Name*</label>
+          <input id="f-name" name="Name" required placeholder="Name eingeben" class="eb-input" />
+        </div>
+        <div>
+          <label for="f-email" class="mb-1.5 block text-sm">Email*</label>
+          <input id="f-email" type="email" name="Email" required placeholder="@" class="eb-input" />
+        </div>
+        <div>
+          <label for="f-company" class="mb-1.5 block text-sm">Unternehmen</label>
+          <input id="f-company" name="Unternehmen" placeholder="Unternehmensname" class="eb-input" />
+        </div>
+        <div>
+          <label for="f-phone" class="mb-1.5 block text-sm">Telefon</label>
+          <input id="f-phone" type="tel" name="Telefon" placeholder="Telefonnummer eingeben" class="eb-input" />
+        </div>
+        <div>
+          <label for="f-msg" class="mb-1.5 block text-sm">Ihr Anliegen*</label>
+          <textarea id="f-msg" name="Ihr-Anliegen" required rows="4" maxlength="5000" class="eb-input resize-y"></textarea>
+        </div>
+
+        <label class="flex items-start gap-3 text-sm text-white/80">
+          <input type="checkbox" required class="mt-1 h-4 w-4 accent-[#1142d4]" />
+          <span>
+            Hiermit bestätige ich die Übermittlung meiner Daten an die <strong>Erben Services UG</strong>.
+            Ihre Daten werden bis zu Ihrem Widerruf bei uns gespeichert. Weitere Informationen zum
+            Datenschutz finden Sie in unserer
+            <a href="/datenschutz" target="_blank" rel="noopener" class="underline hover:text-white">Datenschutzerklärung</a>.
+          </span>
+        </label>
+
+        <Button type="submit" variant="outline-light-full">Jetzt senden</Button>
+      </form>
+
+      <div id="eb-form-done" role="status" tabindex="-1" class="hidden rounded-xs border border-white/20 p-6 text-white">
+        Vielen Dank für die Anfrage! Ein Mitglied des Erben Bau Teams wird sich umgehend bei Ihnen melden.
+      </div>
+      <div id="eb-form-fail" role="alert" class="mt-4 hidden text-sm text-[#ff9b9b]">
+        Ups! Da ist wohl etwas schief gelaufen.<br />Bitte versuchen Sie es nochmal.
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .eb-input {
+    width: 100%;
+    background: #fff;
+    color: #333;
+    border: 1px solid var(--color-input-border, #cccccc);
+    border-radius: 2px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    transition: border-color 100ms, box-shadow 100ms;
+  }
+  .eb-input:focus {
+    outline: none;
+    border-color: #1142d4;
+    box-shadow: 0 0 0 3px rgba(17, 66, 212, 0.22);
+  }
+</style>
+
+<script>
+  const form = document.getElementById('eb-form') as HTMLFormElement | null;
+  const done = document.getElementById('eb-form-done');
+  const fail = document.getElementById('eb-form-fail');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    fail?.classList.add('hidden');
+    const btn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    if (btn) {
+      btn.setAttribute('aria-busy', 'true');
+      btn.disabled = true;
+      btn.textContent = 'Bitte warten...';
+    }
+    try {
+      const data = new FormData(form);
+      const body = new URLSearchParams(data as any).toString();
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body,
+      });
+      if (!res.ok) throw new Error('bad');
+      form.classList.add('hidden');
+      done?.classList.remove('hidden');
+      (done as HTMLElement | null)?.focus?.();
+    } catch {
+      fail?.classList.remove('hidden');
+      if (btn) {
+        btn.removeAttribute('aria-busy');
+        btn.disabled = false;
+        btn.textContent = 'Jetzt senden';
+      }
+    }
+  });
+</script>
