@@ -66,32 +66,6 @@ const werte = [
     </div>
   </section>
 
-  <!-- Atmosphäre / Team -->
-  <section class="bg-ink">
-    <div class="mx-auto max-w-[1456px] md:px-10">
-      <figure class="eb-band relative overflow-hidden md:rounded-xs" data-reveal>
-        <img
-          src="/img/team-office.webp"
-          alt="Cihan Erben mit dem Team von Erben Bau im Büro"
-          width="800"
-          height="979"
-          loading="lazy"
-          decoding="async"
-          class="eb-band-img h-[62vh] w-full object-cover object-center"
-        />
-        <figcaption
-          class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/30 to-transparent p-6 md:p-10"
-        >
-          <p class="eyebrow text-brand-light">Vor Ort, im Team</p>
-          <p class="mt-2 max-w-xl text-lg leading-relaxed text-white md:text-xl">
-            Bauen ist Zusammenarbeit. Wir sind dort, wo Entscheidungen fallen: auf der Baustelle und
-            am Tisch mit allen Beteiligten.
-          </p>
-        </figcaption>
-      </figure>
-    </div>
-  </section>
-
   <!-- Warum wir tun was wir tun -->
   <section class="bg-white">
     <div class="mx-auto max-w-[860px] px-6 py-[clamp(4rem,2.5rem+6vw,9rem)] md:px-10" data-reveal>
@@ -232,11 +206,3 @@ const werte = [
     </div>
   </section>
 </Layout>
-
-<style>
-  /* Sehr dezenter Ken-Burns-Drift am Team-Band (Scale <= 1.05), erst beim Reveal */
-  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
-    .eb-band-img { transform: scale(1.001); transition: transform 8s linear; }
-    .eb-band.is-visible .eb-band-img { transform: scale(1.05); }
-  }
-</style>
