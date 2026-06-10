@@ -1,18 +1,24 @@
 // Netlify-Trigger-Function: feuert automatisch bei jeder verifizierten Form-Submission
-// (Naming-Convention "submission-created"). Versand via Resend-API (fetch, keine Dependencies).
+// (Naming-Convention "submission-created", klassisches Handler-Format lt. Netlify-Doku).
+// Versand via Resend-API (fetch, keine Dependencies).
 // Submissions bleiben unabhängig davon im Netlify-Dashboard gespeichert.
 
 const RECIPIENTS = ['info@erben-bau.de', 'a.hartenfels@voyagedigital.de'];
 const FROM = 'Erben Bau Kontaktformular <formular@erben-bau.de>';
 
-export default async (request) => {
+export const handler = async (event) => {
   const apiKey = process.env.RESEND_API_KEY;
-  const { payload } = await request.json();
-  const data = payload?.data ?? {};
-
   if (!apiKey) {
     console.error('RESEND_API_KEY fehlt — Mail nicht versendet. Submission liegt im Netlify-Dashboard.');
-    return new Response('no api key', { status: 200 });
+    return { statusCode: 200, body: 'no api key' };
+  }
+
+  let data = {};
+  try {
+    data = JSON.parse(event.body).payload?.data ?? {};
+  } catch (e) {
+    console.error('Payload nicht parsebar:', e.message);
+    return { statusCode: 200, body: 'bad payload' };
   }
 
   const lines = [
@@ -43,8 +49,8 @@ export default async (request) => {
 
   if (!res.ok) {
     console.error('Resend-Fehler', res.status, await res.text());
-    return new Response('mail failed', { status: 200 });
+    return { statusCode: 200, body: 'mail failed' };
   }
   console.log('Kontaktanfrage-Mail versendet an', RECIPIENTS.join(', '));
-  return new Response('ok', { status: 200 });
+  return { statusCode: 200, body: 'ok' };
 };
