@@ -1,7 +1,4 @@
-# DEMO-SCHUTZ: X-Robots-Tag verhindert Indexierung der Demo auf erbenbau.voyagedigital.de.
-# Beim Go-Live auf www.erben-bau.de diese eine Zeile ENTFERNEN (siehe erben-bau_golive-runbook.md).
 /*
-  X-Robots-Tag: noindex, nofollow
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
